@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 932e1a95329841992af5fb9ee02ee89a, type: 3}
+  m_Name: Enemy_Mother
+  m_EditorClassIdentifier: 
+  kind: 3
+  health: 100.0
+  speed: 1.1
+  range: 14
+  shotDelay: 2.8
+  spawnDelay: 9
+  ghostInterval: 7
+  color: {r: 0.775, g: 0.6, b: 0.84, a: 1}
+  damageMultiplier: 1.0
+  ramDamage: 25
+  minionHealth: 28.8
+  ricochetSearchDistance: 23

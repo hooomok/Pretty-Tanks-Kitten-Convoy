@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b5eb4903b0249c1916c0c0c88324a1f, type: 3}
+  m_Name: Music
+  m_EditorClassIdentifier: 
+  menuMusic: {fileID: 0}
+  level1Music: {fileID: 8300000, guid: ad67f0174d04ba64ea44cc0ca2e3b54e, type: 3}
+  level2Music: {fileID: 8300000, guid: 189a2c4bae9895a4f9b07aba9e051f5d, type: 3}
+  level3Music: {fileID: 8300000, guid: de089eb935257d1468fa725ab52b2199, type: 3}
+  level4Music: {fileID: 8300000, guid: f43099e37b4c1134e979943f17ca7575, type: 3}
+  level5Music: {fileID: 8300000, guid: 28606439f4cf59e4d917e761e3616dc6, type: 3}
+  level6Music: {fileID: 8300000, guid: d85f42e1e89772940b988f0444bcedd8, type: 3}
+  musicVolume: 0.22
+  effectsVolume: 0.3
+  useAlarmMusic: 1
+  alarmMusic: {fileID: 0}

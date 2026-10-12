@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b88f5bef3e7e934992fcce6ef35ee4b, type: 3}
+  m_Name: Ammo
+  m_EditorClassIdentifier: Assembly-CSharp::PrettyTanks.AmmoConfig
+  maxAmmo: 40
+  startingAmmo: 40
+  refillInterval: 1.0
+  refillAmount: 1
