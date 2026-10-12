@@ -4,6 +4,8 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
+using System.Reflection;
 
 namespace PrettyTanks.Editor {
     [InitializeOnLoad]
@@ -12,13 +14,53 @@ namespace PrettyTanks.Editor {
             EditorApplication.delayCall += Auto;
         }
 
-        private static void Auto() {
-            if (EditorApplication.isPlayingOrWillChangePlaymode || EditorApplication.isCompiling || EditorApplication.isUpdating) {
+        private static void Auto()
+        {
+            if (EditorApplication.isPlayingOrWillChangePlaymode ||
+                EditorApplication.isCompiling ||
+                EditorApplication.isUpdating)
+            {
                 EditorApplication.delayCall += Auto;
                 return;
             }
-            if (!File.Exists("Assets/Settings/PrettyURP.asset")) {
+
+            if (!File.Exists("Assets/Settings/PrettyURP.asset"))
+            {
                 Configure();
+            }
+
+            const string mainScenePath = "Assets/Scenes/Main.unity";
+
+            var mainScene =
+                AssetDatabase.LoadAssetAtPath<SceneAsset>(mainScenePath);
+
+            if (!mainScene)
+            {
+                Debug.LogError("Не найдена стартовая сцена: " + mainScenePath);
+                return;
+            }
+
+            EditorSceneManager.playModeStartScene = mainScene;
+
+            const string sessionKey = "PrettyTanks.MainSceneChecked";
+
+            if (SessionState.GetBool(sessionKey, false))
+            {
+                return;
+            }
+
+            SessionState.SetBool(sessionKey, true);
+            SetGameViewAspect();
+
+            var currentScene = SceneManager.GetActiveScene();
+
+            if (SceneManager.sceneCount == 1 &&
+                string.IsNullOrEmpty(currentScene.path) &&
+                !currentScene.isDirty)
+            {
+                EditorSceneManager.OpenScene(
+                    mainScenePath,
+                    OpenSceneMode.Single);
             }
         }
 
@@ -125,6 +167,61 @@ namespace PrettyTanks.Editor {
             PlayerPrefs.Save();
 
             Debug.Log("Вступление будет показано перед следующим запуском уровня.");
+        }
+
+        private static void SetGameViewAspect()
+        {
+            try
+            {
+                var assembly = typeof(UnityEditor.Editor).Assembly;
+                var sizesType = assembly.GetType("UnityEditor.GameViewSizes");
+                var groupType = assembly.GetType("UnityEditor.GameViewSizeGroupType");
+                var viewType = assembly.GetType("UnityEditor.GameView");
+
+                const BindingFlags flags =
+                    BindingFlags.Public | BindingFlags.NonPublic |
+                    BindingFlags.Instance | BindingFlags.Static |
+                    BindingFlags.FlattenHierarchy;
+
+                var instance = sizesType.BaseType
+                    .GetProperty("instance", flags)
+                    .GetValue(null);
+
+                var standalone = System.Enum.Parse(groupType, "Standalone");
+
+                var group = sizesType.GetMethod("GetGroup", flags)
+                    .Invoke(instance, new object[] { standalone });
+
+                var labels = (string[])group.GetType()
+                    .GetMethod("GetDisplayTexts", flags)
+                    .Invoke(group, null);
+
+                int index = System.Array.FindIndex(
+                    labels,
+                    label => label.StartsWith(
+                        "16:9",
+                        System.StringComparison.Ordinal));
+
+                if (index < 0)
+                {
+                    Debug.LogWarning(
+                        "Формат 16:9 не найден. Выберите его во вкладке Game.");
+                    return;
+                }
+
+                var gameView = EditorWindow.GetWindow(viewType);
+
+                viewType.GetProperty("selectedSizeIndex", flags)
+                    .SetValue(gameView, index);
+
+                gameView.Repaint();
+            }
+            catch (System.Exception)
+            {
+                Debug.LogWarning(
+                    "Не удалось автоматически выбрать 16:9. " +
+                    "Во вкладке Game выберите Free Aspect → 16:9.");
+            }
         }
     }
 }
