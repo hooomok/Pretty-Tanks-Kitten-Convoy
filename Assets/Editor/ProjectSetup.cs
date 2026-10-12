@@ -134,7 +134,7 @@ namespace PrettyTanks.Editor {
             if (!GraphicsSettings.defaultRenderPipeline) {
                 throw new System.Exception("URP не настроен");
             }
-            Debug.Log("Pretty Tanks: ресурсы и URP найдены. Запуск и механику проверьте по Docs/TEST_PLAN_RU.md.");
+            Debug.Log("Pretty Tanks: ресурсы и URP найдены.");
         }
 
         [MenuItem("Pretty Tanks/Debug/Unlock all missions")]
